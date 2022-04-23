@@ -1,7 +1,18 @@
 version: "3.9"
 services:
+  postgres:
+    image: postgres:14.2-alpine
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=lottor_pg
+      - POSTGRES_PASSWORD=111111
+      - POSTGRES_DB=lottery_db
   mariadb:
-    image: mariadb
+    image: mariadb:10.7.3-focal
     restart: always
     ports:
       - 3306:3306
@@ -10,5 +21,12 @@ services:
     environment:
       - MARIADB_ROOT_PASSWORD=111111
       - MARIADB_DATABASE=lottery_db
-      - MARIADB_USER=lottery_user
+      - MARIADB_USER=lottor_mariadb
       - MARIADB_PASSWORD=111111
+  redis:
+    image: redis:6.2.6-alpine
+    restart: always
+    ports:
+      - 6379:6379
+    volumes:
+      - ./volumes/redis:/data
